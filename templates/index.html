@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Video Segmentation</title>
+    <script>
+        function updateSegmentedFrame() {
+            fetch('/get_segmented_frame')
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Failed to fetch segmented frame.');
+                    }
+                })
+                .then(data => {
+                    if (data.segmented_frame) {
+                        document.getElementById('segmented-frame').src = 'data:image/jpeg;base64,' + data.segmented_frame;
+                    } else {
+                        console.error('No segmented frame available.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching segmented frame:', error);
+                });
+        }
+
+        // Update every 500ms
+        setInterval(updateSegmentedFrame, 500);
+    </script>
+</head>
+<body>
+    <h1>Real-Time Video Segmentation</h1>
+    <div>
+        <h2>Video Stream</h2>
+        <img src="{{ url_for('video') }}" alt="Video Stream" style="width: 50%; height: auto;"/>
+    </div>
+</body>
+</html>
