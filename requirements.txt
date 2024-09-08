@@ -1,5 +1,7 @@
-Flask
+Flask==2.2.2
 opencv-python
-numpy
+tensorflow
+numpy==1.24.3
 torch
 gunicorn
+Pillow
